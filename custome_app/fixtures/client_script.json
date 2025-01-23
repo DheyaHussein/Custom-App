@@ -1,0 +1,13 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Stock Ledger Entry",
+  "enabled": 1,
+  "modified": "2025-01-20 01:19:23.517336",
+  "module": "Stock",
+  "name": "Item reorder level",
+  "script": "frappe.ui.form.on('Stock Ledger Entry', {\n\trefresh(frm) {\n\t\t// your code her\n\t\tif (frm.doc.actual_qty <= (frm.doc.reorder_level * 0.1)) {  // Example: 20% threshold\n            frappe.msgprint({\n                title: __('Low Stock Alert'),\n                indicator: 'red',\n                message: `Stock for ${frm.doc.item_code} has reached 20% of its reorder level.`\n            });\n        }\n\t}\n});",
+  "view": "Form"
+ }
+]
