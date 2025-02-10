@@ -31,5 +31,16 @@
   "name": "Item is lass",
   "script": "frappe.ui.form.on('Stock Entry', {\r\n    validate: function (frm) {\r\n        frm.doc.items.forEach(item => {\r\n            if (item.item_code) {\r\n                // Fetch the actual stock level for the selected item\r\n                frappe.call({\r\n                    method: 'frappe.client.get',\r\n                    args: {\r\n                        doctype: 'Bin',\r\n                        filters: {\r\n                            item_code: item.item_code,\r\n                            warehouse: item.s_warehouse || item.t_warehouse\r\n                        }\r\n                    },\r\n                    callback: function (response) {\r\n                        if (response.message) {\r\n                            const current_stock = response.message.actual_qty || 0;\r\n                            const ten_percent_stock = current_stock * 0.10;\r\n\r\n                            // Check if the entered quantity is below 10% of total stock\r\n                            if (item.qty <= ten_percent_stock) {\r\n                                frappe.msgprint({\r\n                                    title: __('Low Stock Warning'),\r\n                                    indicator: 'orange',\r\n                                    message: __(\r\n                                        `The quantity for item <b>${item.item_code}</b> is less than 10% of the available stock (${current_stock}). Please request more.`\r\n                                    )\r\n                                });\r\n                            }\r\n                        }\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n});\r\n",
   "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Bin",
+  "enabled": 0,
+  "modified": "2025-02-10 05:43:31.643162",
+  "module": "Stock",
+  "name": "Custom Report Script",
+  "script": "frappe.query_reports[\"Stock Projected Qty\"] = {\r\n    \"formatter\": function(value, row, column, data, default_formatter) {\r\n        if (column.fieldname === \"projected_qty\" || column.fieldname === \"actual_qty\") {\r\n            value = parseInt(value);  // Convert float to integer\r\n        }\r\n        return default_formatter(value, row, column, data);\r\n    }\r\n};\r\n",
+  "view": "Form"
  }
 ]
