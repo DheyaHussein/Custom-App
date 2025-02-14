@@ -3862,6 +3862,80 @@
   "timeout": 0
  },
  {
+  "add_total_row": 1,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "Yes",
+  "javascript": null,
+  "json": null,
+  "letter_head": "Head Report",
+  "modified": "2025-02-11 04:12:55.089390",
+  "module": "Stock",
+  "name": "Material Issue by Beneficiary2",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Stock Entry",
+  "reference_report": "",
+  "report_name": "Material Issue by Beneficiary2",
+  "report_script": null,
+  "report_type": "Script Report",
+  "roles": [
+   {
+    "role": "Stock User"
+   },
+   {
+    "role": "Manufacturing User"
+   },
+   {
+    "role": "Manufacturing Manager"
+   },
+   {
+    "role": "Stock Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
+  "add_total_row": 0,
+  "columns": [],
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Report",
+  "filters": [],
+  "is_standard": "No",
+  "javascript": null,
+  "json": "{\"columns\":[{\"label\":\"Stock Entry\",\"fieldname\":\"stock_entry\",\"fieldtype\":\"Link\",\"options\":\"Stock Entry\",\"width\":150,\"id\":\"stock_entry\",\"name\":\"Stock Entry\",\"editable\":false,\"compareValue\":null},{\"label\":\"Posting Date\",\"fieldname\":\"posting_date\",\"fieldtype\":\"Date\",\"width\":120,\"id\":\"posting_date\",\"name\":\"Posting Date\",\"editable\":false},{\"label\":\"Beneficiary Party\",\"fieldname\":\"custom_beneficiary_party\",\"fieldtype\":\"Link\",\"options\":\"Beneficiary Party\",\"width\":150,\"id\":\"custom_beneficiary_party\",\"name\":\"Beneficiary Party\",\"editable\":false,\"compareValue\":null},{\"label\":\"Item Code\",\"fieldname\":\"item_code\",\"fieldtype\":\"Link\",\"options\":\"Item\",\"width\":150,\"id\":\"item_code\",\"name\":\"Item Code\",\"editable\":false,\"compareValue\":null},{\"label\":\"Item Name\",\"fieldname\":\"item_name\",\"fieldtype\":\"Data\",\"width\":180,\"id\":\"item_name\",\"name\":\"Item Name\",\"editable\":false,\"compareValue\":null},{\"label\":\"Quantity\",\"fieldname\":\"qty\",\"fieldtype\":\"Int\",\"width\":100,\"id\":\"qty\",\"name\":\"Quantity\",\"editable\":false,\"compareValue\":null},{\"label\":\"Stock UOM\",\"fieldname\":\"stock_uom\",\"fieldtype\":\"Data\",\"width\":80,\"id\":\"stock_uom\",\"name\":\"Stock UOM\",\"editable\":false,\"compareValue\":null},{\"label\":\"Source Warehouse\",\"fieldname\":\"s_warehouse\",\"fieldtype\":\"Link\",\"options\":\"Warehouse\",\"width\":150,\"id\":\"s_warehouse\",\"name\":\"Source Warehouse\",\"editable\":false,\"compareValue\":null}],\"filters\":{}}",
+  "letter_head": "Head Report",
+  "modified": "2025-02-11 04:14:40.969363",
+  "module": "Stock",
+  "name": "تقرير حركة اوامر الصرف",
+  "prepared_report": 0,
+  "query": null,
+  "ref_doctype": "Stock Entry",
+  "reference_report": "Material Issue by Beneficiary2",
+  "report_name": "تقرير حركة اوامر الصرف",
+  "report_script": null,
+  "report_type": "Custom Report",
+  "roles": [
+   {
+    "role": "Stock User"
+   },
+   {
+    "role": "Manufacturing User"
+   },
+   {
+    "role": "Manufacturing Manager"
+   },
+   {
+    "role": "Stock Manager"
+   }
+  ],
+  "timeout": 0
+ },
+ {
   "add_total_row": 0,
   "columns": [],
   "disabled": 0,
