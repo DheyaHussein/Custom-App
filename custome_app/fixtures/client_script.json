@@ -42,5 +42,16 @@
   "name": "Custom Report Script",
   "script": "frappe.query_reports[\"Stock Projected Qty\"] = {\r\n    \"formatter\": function(value, row, column, data, default_formatter) {\r\n        if (column.fieldname === \"projected_qty\" || column.fieldname === \"actual_qty\") {\r\n            value = parseInt(value);  // Convert float to integer\r\n        }\r\n        return default_formatter(value, row, column, data);\r\n    }\r\n};\r\n",
   "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Stock Entry",
+  "enabled": 1,
+  "modified": "2025-02-16 22:34:09.615249",
+  "module": "Custome App",
+  "name": "Quantity in Words",
+  "script": "frappe.ui.form.on(\"Stock Entry\", {\r\n    validate: function(frm) {\r\n        frm.doc.items.forEach(function(row) {\r\n            if (row.qty) {\r\n                // Convert quantity to words in English\r\n                // frappe.call({\r\n                //     method: \"your_custom_app.utils.convert_number_to_words\",\r\n                //     args: {\r\n                //         number: row.qty,\r\n                //         lang: \"en\"\r\n                //     },\r\n                //     callback: function(response) {\r\n                //         frappe.model.set_value(row.doctype, row.name, \"qty_in_words\", response.message);\r\n                //     }\r\n                // });\r\n\r\n                // Convert quantity to words in Arabic\r\n                frappe.call({\r\n                    method: \"custome_app.utils.convert_number_to_words\",\r\n                    args: {\r\n                        number: row.qty,\r\n                        lang: \"ar\"\r\n                    },\r\n                    callback: function(response) {\r\n                        frappe.model.set_value(row.doctype, row.name, \"qty_in_words\", response.message);\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n});",
+  "view": "Form"
  }
 ]
