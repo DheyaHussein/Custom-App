@@ -15,10 +15,10 @@
   "doctype": "Client Script",
   "dt": "Stock Entry",
   "enabled": 1,
-  "modified": "2025-01-29 02:53:22.156996",
+  "modified": "2025-02-24 10:29:01.080430",
   "module": null,
   "name": "Custom Script",
-  "script": "frappe.ui.form.on('Stock Entry', {\r\n    stock_entry_type: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('beneficiary', 'reqd', condition);\r\n    },\r\n    from_warehouse: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('custom_beneficiary_party', 'reqd', condition);\r\n    },\r\n    refresh: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('custom_beneficiary_party', 'reqd', condition);\r\n    }\r\n});\r\n",
+  "script": "frappe.ui.form.on('Stock Entry', {\r\n    stock_entry_type: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue' || frm.doc.stock_entry_type === 'Damaged Material Receipt';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('beneficiary', 'reqd', condition);\r\n    },\r\n    \r\n    from_warehouse: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue' || frm.doc.stock_entry_type === 'Damaged Material Receipt';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('custom_beneficiary_party', 'reqd', condition);\r\n    },\r\n    refresh: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue' || frm.doc.stock_entry_type === 'Damaged Material Receipt';\r\n        frm.toggle_display('custom_beneficiary_party', condition);\r\n        frm.set_df_property('custom_beneficiary_party', 'reqd', condition);\r\n    }\r\n});\r\n",
   "view": "Form"
  },
  {
