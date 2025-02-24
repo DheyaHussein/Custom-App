@@ -1,1 +1,21 @@
-[]
+[
+ {
+  "allow_guest": 0,
+  "api_method": null,
+  "cron_format": null,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Server Script",
+  "doctype_event": "Before Save",
+  "enable_rate_limit": 0,
+  "event_frequency": "All",
+  "modified": "2025-02-24 04:59:04.685429",
+  "module": "Custome App",
+  "name": "Requires Damaged Receipt",
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400,
+  "reference_doctype": "Stock Entry",
+  "script": "damaged_warehouse = \"Damaged Items Warehouse - اا\"  # Change this to your actual warehouse nam\r\nprint(\"hhhhhhhhhh\")\r\n\r\nfor item in doc.items:\r\n      requires_damaged = frappe.db.get_value(\"Item\", item.item_code, \"requires_damaged_receipt\")\r\n      \r\n      if doc.stock_entry_type == \"Material Issue\" and requires_damaged:\r\n          required_qty = item.qty\r\n          damaged_qty = frappe.db.get_value(\r\n              \"Bin\",\r\n              {\"item_code\": item.item_code, \"warehouse\": damaged_warehouse},\r\n              \"actual_qty\"\r\n            ) or 0\r\n              \r\n          if required_qty > damaged_qty:\r\n            frappe.throw(_(\r\n                    f\"Cannot issue item <b>{item.item_code}</b> because only <b>{damaged_qty}</b> exists in the <b>{damaged_warehouse}</b>.<br>\"\r\n                    f\"You must first receive <b>{required_qty - damaged_qty}</b> as 'Damaged Material' before issuing.<br><br>\"\r\n                    f\"<a href='/app/stock-entry/new' target='_blank'>\"\r\n                    f\"<button class='btn btn-primary'>Create Stock Entry for Damaged Items</button></a>\"\r\n                ))\r\n              \r\n   \r\n            # Check available quantity in Damaged Warehouse\r\n        #   damaged_qty = frappe.db.get_value(\r\n        #     \"Bin\",\r\n        #     {\"item_code\": item.item_code, \"warehouse\": damaged_warehouse},\r\n        #     \"actual_qty\"\r\n        #     ) or 0\r\n    # Check if the item requires a damaged receipt before issue\r\n \r\n    \r\n\r\n     \r\n\r\n            # If required quantity is not available, prevent submission\r\n    # if required_qty > damaged_qty:\r\n    #             msg = \"\"\"\r\n    #             <b>Cannot issue item <b>{}</b> because only <b>{}</b> exists in the <b>{}</b>.\r\n    #             <br><br>\r\n    #             <b>Solution:</b> You must first receive <b>{}</b> as 'Damaged Material' before issuing.\r\n    #             <br><br>\r\n    #             <a href='/app/stock-entry/new' target='_blank'>\r\n    #                 <button style='background-color: blue; color: white; padding: 8px; border-radius: 5px; border: none;'>\r\n    #                     Create Stock Entry for Damaged Items\r\n    #                 </button>\r\n    #             </a>\r\n    #             \"\"\".format(item.item_code, damaged_qty, damaged_warehouse, required_qty - damaged_qty)\r\n\r\n    #         frappe.throw(msg)\r\n\r\n\r\n# frappe.throw(msg=\"hsihfanfas jhamsfo\")",
+  "script_type": "DocType Event"
+ }
+]

@@ -53,5 +53,27 @@
   "name": "Quantity in Words",
   "script": "frappe.ui.form.on(\"Stock Entry\", {\r\n    validate: function(frm) {\r\n        frm.doc.items.forEach(function(row) {\r\n            if (row.qty) {\r\n                // Convert quantity to words in English\r\n                // frappe.call({\r\n                //     method: \"your_custom_app.utils.convert_number_to_words\",\r\n                //     args: {\r\n                //         number: row.qty,\r\n                //         lang: \"en\"\r\n                //     },\r\n                //     callback: function(response) {\r\n                //         frappe.model.set_value(row.doctype, row.name, \"qty_in_words\", response.message);\r\n                //     }\r\n                // });\r\n\r\n                // Convert quantity to words in Arabic\r\n                frappe.call({\r\n                    method: \"custome_app.utils.convert_number_to_words\",\r\n                    args: {\r\n                        number: row.qty,\r\n                        lang: \"ar\"\r\n                    },\r\n                    callback: function(response) {\r\n                        frappe.model.set_value(row.doctype, row.name, \"qty_in_words\", response.message);\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n});",
   "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Purchase Receipt",
+  "enabled": 1,
+  "modified": "2025-02-24 01:38:20.642519",
+  "module": "Custome App",
+  "name": "Quantity in Word for Purchase Receipt",
+  "script": "frappe.ui.form.on(\"Purchase Receipt\", {\r\n    validate: function(frm) {\r\n        frm.doc.items.forEach(function(row) {\r\n            if (row.received_qty) {\r\n                // Convert quantity to words in English\r\n                // frappe.call({\r\n                //     method: \"your_custom_app.utils.convert_number_to_words\",\r\n                //     args: {\r\n                //         number: row.qty,\r\n                //         lang: \"en\"\r\n                //     },\r\n                //     callback: function(response) {\r\n                //         frappe.model.set_value(row.doctype, row.name, \"qty_in_words\", response.message);\r\n                //     }\r\n                // });\r\n\r\n                // Convert quantity to words in Arabic\r\n                frappe.call({\r\n                    method: \"custome_app.utils.convert_number_to_words\",\r\n                    args: {\r\n                        number: row.received_qty,\r\n                        lang: \"ar\"\r\n                    },\r\n                    callback: function(response) {\r\n                        frappe.model.set_value(row.doctype, row.name, \"custom_quantity_in_words\", response.message);\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n});",
+  "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Stock Entry",
+  "enabled": 1,
+  "modified": "2025-02-24 05:03:05.062934",
+  "module": "Custome App",
+  "name": "`Requires Damaged Receipt",
+  "script": "frappe.ui.form.on(\"Stock Entry\", {\r\n    item_code: function(frm, cdt, cdn) {\r\n        let row = locals[cdt][cdn];\r\n\r\n        // Fetch the 'Requires Damaged Receipt' field from Item Doctype\r\n        frappe.db.get_value(\"Item\", row.item_code, \"requires_damaged_receipt\", (r) => {\r\n            if (r.requires_damaged_receipt) {\r\n                // Check available stock in Damaged Warehouse\r\n                frappe.call({\r\n                    method: \"frappe.client.get_value\",\r\n                    args: {\r\n                        doctype: \"Bin\",\r\n                        filters: {\r\n                            item_code: row.item_code,\r\n                            warehouse: \"Damaged Items Warehouse - اا\"\r\n                        },\r\n                        fieldname: \"actual_qty\"\r\n                    },\r\n                    callback: function(response) {\r\n                        let damaged_qty = response.message ? response.message.actual_qty : 0;\r\n\r\n                        if (row.qty > damaged_qty) {\r\n                            frappe.msgprint({\r\n                                title: __(\"Insufficient Damaged Stock\"),\r\n                                message: __(`Cannot issue item <b>${row.item_code}</b> because only <b>${damaged_qty}</b> is available in 'Damaged Items Warehouse'.<br>\r\n                                You need to receive at least <b>${row.qty - damaged_qty}</b> as 'Damaged Material' before proceeding.`),\r\n                                indicator: \"red\"\r\n                            });\r\n\r\n                            // Clear the row to prevent incorrect selection\r\n                            frappe.model.set_value(cdt, cdn, \"item_code\", \"\");\r\n                        }\r\n                    }\r\n                });\r\n            }\r\n        });\r\n    }\r\n});\r\n",
+  "view": "Form"
  }
 ]
