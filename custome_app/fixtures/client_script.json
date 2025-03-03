@@ -97,5 +97,16 @@
   "name": "Received Info",
   "script": "frappe.ui.form.on('Stock Entry', {\r\n    stock_entry_type: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_received_name', condition);\r\n        frm.set_df_property('Received Name', 'reqd', condition);\r\n        \r\n        frm.toggle_display('custom_work_type_', condition);\r\n        frm.set_df_property('Work Type', 'reqd', condition);\r\n    },\r\n    \r\n    from_warehouse: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_received_name', condition);\r\n        frm.set_df_property('custom_received_name', 'reqd', condition);\r\n        \r\n        frm.toggle_display('custom_work_type_', condition);\r\n        frm.set_df_property('custom_work_type_', 'reqd', condition);\r\n    },\r\n    refresh: function (frm) {\r\n        const condition = frm.doc.stock_entry_type === 'Material Issue';\r\n        frm.toggle_display('custom_received_name', condition);\r\n        frm.set_df_property('custom_received_name', 'reqd', condition);\r\n        \r\n        frm.toggle_display('custom_work_type_', condition);\r\n        frm.set_df_property('custom_work_type_', 'reqd', condition);\r\n    }\r\n});\r\n",
   "view": "Form"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Stock Entry",
+  "enabled": 0,
+  "modified": "2025-03-03 01:58:20.342243",
+  "module": "Custome App",
+  "name": "Synchronize Data",
+  "script": "frappe.ui.form.on(\"Stock Entry\", {\r\n    refresh: function (frm) {\r\n        frm.add_custom_button(__('Synchronize Data'), function () {\r\n            let file_input = $('<input type=\"file\" accept=\".sql\">');\r\n            file_input.trigger('click');\r\n\r\n            file_input.on('change', function () {\r\n                let file = file_input[0].files[0];\r\n                if (file) {\r\n                    let reader = new FileReader();\r\n                    reader.readAsText(file);\r\n                    reader.onload = function (e) {\r\n                        frappe.call({\r\n                            method: \"custom_app.sync_data.restore_backup\",\r\n                            args: {\r\n                                sql_content: e.target.result\r\n                            },\r\n                            callback: function (response) {\r\n                                if (response.message === \"success\") {\r\n                                    frappe.msgprint(\"Data synchronized successfully.\");\r\n                                } else {\r\n                                    frappe.msgprint(\"Error during synchronization.\");\r\n                                }\r\n                            }\r\n                        });\r\n                    };\r\n                }\r\n            });\r\n        }).addClass(\"btn-primary\");\r\n    }\r\n});\r\n",
+  "view": "Form"
  }
 ]
